@@ -1,0 +1,18 @@
+﻿@model Forum.Web.Models.Posts.InsertEditPostModel
+@{
+    ViewBag.Title = "Edit Post";
+}
+<h2>Re: @Model.ThreadName</h2>
+<form method="post" action="/Posts/Edit">
+    <div class="form-group">
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.CreateDate)
+        @Html.HiddenFor(m => m.ThreadId)
+        @Html.HiddenFor(m => m.ThreadName)
+        <label for="text">Text: </label>
+        @Html.TextAreaFor(m => m.PostText, new { @class = "form-control", @id = "text" })
+        <small>@Html.ValidationMessageFor(m => m.PostText)</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+

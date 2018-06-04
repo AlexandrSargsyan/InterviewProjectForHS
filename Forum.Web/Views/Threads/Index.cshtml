@@ -1,0 +1,107 @@
+﻿@using Forum.Web.Secuirty
+@model Forum.Common.Posts.ThreadPostsViewModel
+@{
+    ViewBag.Title = Model.ThreadName;
+
+}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>@Model.ThreadName</h2>
+        <p>@Model.ThreadText</p>
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4" style="text-align: right">
+        <br />
+        @if (ViewBag.latestFirst != null && ViewBag.latestFirst == true)
+        {
+            @Html.ActionLink("Oldest First","Index","Threads",
+                  new {id = Model.ThreadId, name = Model.ThreadName,
+                      page = Model.Posts.CurrentPage,
+                      latestFirst = false },
+                      new {@class = "btn btn-default", @role ="button", @ariaPressed="true"})
+        }
+        else
+        {
+            @Html.ActionLink("Latest First","Index","Threads",
+                new {id = Model.ThreadId, name = Model.ThreadName,
+                    page = Model.Posts.CurrentPage,
+                    latestFirst = true},
+                    new {@class = "btn btn-default", @role ="button", @ariaPressed="true"})
+        }
+    </div>
+</div>
+@if (User.Identity.IsAuthenticated && !Model.Closed)
+{
+    
+    <a href="@Url.Action("Edit","Posts",new { threadId = Model.ThreadId, threadName = Model.ThreadName, id =""})" class="btn btn-success" aria-label="Left Align" role="button">
+        <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>  Reply
+    </a>
+
+}
+
+@if (Model.Closed)
+{
+    <button class="btn btn-danger" aria-label="Left Align">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>  Closed
+    </button>
+}
+@if (ForumAuthenticationManager.Data?.UserType == Forum.Common.Users.UserType.Admin)
+{
+    <a href="@($"/Threads/SetState?id={Model.ThreadId}&name={Uri.EscapeDataString(Model.ThreadName)}&state={!Model.Closed}")"
+        class="btn btn-danger" aria-label="Left Align" role="button">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>  @(Model.Closed ? "Reopen thread" : "Close Thread")
+    </a>
+}
+<hr />
+
+
+@foreach (var post in Model.Posts.Items)
+{
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Posted By <strong>@post.UserNickname</strong>
+                </div>
+                <div class="panel-body">
+                    <i>Registered at:</i> <strong>@post.UserRegistrationDate.ToString("d")</strong>
+                    <br />
+                    <i>Total Posts</i> <strong>@post.UserTotalPosts</strong>
+                    <br />
+                    <i>from</i> <strong>@post.UserCity, @post.UserCountry</strong>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"> @post.PostName</h3>
+                    @if (ForumAuthenticationManager.Data?.UserType == Forum.Common.Users.UserType.Admin ||
+                         (ForumAuthenticationManager.Data?.Nickname == post.UserNickname
+                          &&
+                        !Model.Closed))
+                    {
+                        <div class="btn-group" style="float:right">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                ...
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Edit","Posts",new { threadId = Model.ThreadId, threadName = Model.ThreadName, id =post.PostId})"><span class="glyphicon glyphicon-pencil"></span> Edit</a></li>
+                                <li><a href="/Posts/Remove?id=@post.PostId&threadId=@Model.ThreadId&threadName=@Uri.EscapeDataString(Model.ThreadName)"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
+                            </ul>
+                        </div>
+                    }
+                </div>
+                <div class="panel-body">
+                    @post.PostText
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@CommonHelpers.Paging(Model.Posts, $"/Threads/{Model.ThreadId}/{Model.ThreadName}/{{0}}/{ViewBag.latestFirst}")
+

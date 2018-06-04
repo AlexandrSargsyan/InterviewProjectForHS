@@ -1,0 +1,23 @@
+﻿@model Forum.Web.Models.Threads.InsertThreadModel
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add New Thread</h2>
+<form method="post" action="/Threads/Add">
+    <div class="form-group">
+        @Html.HiddenFor(m => m.TopicId)
+        <label for="name">Name: </label>
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @id = "name" })
+        <small>@Html.ValidationMessageFor(m => m.Name)</small>
+    </div>
+    <div class="form-group">
+        @Html.HiddenFor(m => m.TopicId)
+        <label for="desc">Description: </label>
+        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @id = "desc" })
+        <small>@Html.ValidationMessageFor(m => m.Description)</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+

@@ -1,0 +1,16 @@
+﻿@helper Paging(Forum.Common.Base.IPager pager, string url)
+{
+
+    <span>Showing @pager.Count from @pager.TotalCount</span>
+
+    if (Math.Ceiling ((double)pager.TotalCount / (double)pager.ShowPerPage) > 1)
+    {
+        <ul class="pagination">
+            @for (var p = 1; p <= Math.Ceiling((double)pager.TotalCount / (double)pager.ShowPerPage); p++)
+            {
+                <li class="@(pager.CurrentPage==p ? "active" : "")"><a href="@(string.Format(url,p))">@p</a></li>
+            }
+        </ul>
+    }
+}
+

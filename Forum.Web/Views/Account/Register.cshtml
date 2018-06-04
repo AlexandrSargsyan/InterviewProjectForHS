@@ -1,0 +1,36 @@
+﻿@model Forum.Web.Models.Account.RegisterModel
+@{
+    ViewBag.Title = "Register";
+}
+
+
+<h2>Register</h2>
+
+<form method="post" action="/Register">
+    <div class="form-group">
+        <label for="nickname">Nickname: </label>
+        @Html.TextBoxFor(m=>m.Nickname, new { @class ="form-control", @id="nickname"})
+        <small>@Html.ValidationMessageFor(m => m.Nickname)</small>
+    </div>
+    <div class="form-group">
+        <label for="password">Password: </label>
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "password" })
+        <small>@Html.ValidationMessageFor(m => m.Password)</small>
+    </div>
+    <div class="form-group">
+        <label for="cpassword">Confirm : </label>
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @id = "cpassword" })
+        <small>@Html.ValidationMessageFor(m => m.ConfirmPassword)</small>
+    </div>
+    <div class="form-group">
+        <label for="city">City: </label>
+        @Html.TextBoxFor(m => m.City, new { @class = "form-control", @id = "city" })
+        <small>@Html.ValidationMessageFor(m => m.City)</small>
+    </div>
+    <div class="form-group">
+        <label for="country">Country: </label>
+        @Html.TextBoxFor(m => m.Country, new { @class = "form-control", @id = "country" })
+        <small>@Html.ValidationMessageFor(m => m.Country)</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>

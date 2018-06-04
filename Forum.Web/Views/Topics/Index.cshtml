@@ -1,0 +1,41 @@
+﻿@model Forum.Common.Base.PagingResult<Forum.Common.Threads.ThreadsGridViewModel>
+@{
+    ViewBag.Title = ViewBag.name;
+}
+
+<h2>@ViewBag.name</h2>
+@if (User.Identity.IsAuthenticated)
+{
+    <a href="/Threads/Add?topicId=@ViewBag.id" class="btn btn-success" aria-label="Left Align" role="button">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Add Thread
+    </a>
+    <hr />
+}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Thread Name</th>
+                <th>Last Posted By</th>
+                <th>Last Post On</th>
+                <th>Replies</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr class="@(item.Closed ? "danger" : "")">
+                    <td>
+                        @Html.ActionLink(item.ThreadName, "Index", "Threads",
+                                             new { name = item.ThreadName, id = item.ThreadId }, null)
+                    </td>
+                    <td>@(item.TotalReplies == 0 ? "no posts yes" : item.LastPostedBy)</td>
+                    <td>@(item.TotalReplies == 0 ? "no posts yes" : item.LastPostDate.ToString())</td>
+                    <td>@(item.TotalReplies == 0 ? "no posts yes" : item.TotalReplies.ToString())</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@CommonHelpers.Paging(Model,$"/Topics/{ViewBag.id}/{ViewBag.name}/{{0}}" )

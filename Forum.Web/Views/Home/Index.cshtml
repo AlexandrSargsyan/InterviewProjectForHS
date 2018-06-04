@@ -1,0 +1,42 @@
+﻿@model Forum.Common.Base.PagingResult<Forum.Common.Topics.TopicGridViewModel>
+
+@{
+    ViewBag.Title = "Trending Topics";
+}
+<h2>Forums</h2>
+@if (Forum.Web.Secuirty.ForumAuthenticationManager.Data?.UserType == Forum.Common.Users.UserType.Admin)
+{
+    <a href="/Topics/Add" class="btn btn-success" aria-label="Left Align" role="button">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  Add New Topic
+    </a>
+    <hr />
+}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Topic Name</th>
+                <th>Last Post</th>
+                <th>Last Post Date</th>
+                <th>Total Replies</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@Html.ActionLink(item.TopicName, "Index", "Topics", new { name = item.TopicName, id = item.TopicId, page = 1 }, null)</td>
+                    <td>@item.LastPostName</td>
+                    <td>@item.LastPostDate</td>
+                    <td>@item.TotalReplies</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@CommonHelpers.Paging(Model, "/{0}")
+
+
+

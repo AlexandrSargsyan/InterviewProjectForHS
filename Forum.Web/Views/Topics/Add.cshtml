@@ -1,0 +1,16 @@
+﻿@model Forum.Web.Models.Topics.InsertTopicModel
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Create New Topic</h2>
+
+<form method="post" action="/Topics/Add">
+    <div class="form-group">
+        <label for="name">Name: </label>
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @id = "name" })
+        <small>@Html.ValidationMessageFor(m => m.Name)</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+

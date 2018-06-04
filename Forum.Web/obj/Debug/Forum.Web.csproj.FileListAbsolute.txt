@@ -1,0 +1,6 @@
+c:\users\alexandr.sargsyan\source\repos\Forum\Forum.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+c:\users\alexandr.sargsyan\source\repos\Forum\Forum.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+c:\users\alexandr.sargsyan\source\repos\Forum\Forum.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+c:\users\alexandr.sargsyan\source\repos\Forum\Forum.Web\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+c:\users\alexandr.sargsyan\source\repos\Forum\Forum.Web\bin\roslyn\System.IO.Compression.dll
+c:\users\alexandr.sargsyan\source\repos\Forum\Forum.Web\bin\roslyn\VBCSCompiler.exe
